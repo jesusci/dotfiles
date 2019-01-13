@@ -1,1 +1,1 @@
-# my-vim-configuration
+# Dotfiles of my configuration
