@@ -40,6 +40,27 @@ map <F7> mzgg=G`z
 set pastetoggle=<f5>
 
 " ===========================
+"       Templates
+" ==========================
+"""" Templates for python
+function PySKL()
+    :read ~/.vim/templates/skeleton.py
+endfunction
+
+function PyClassSKL()
+    :read ~/.vim/templates/class_skeleton.py
+endfunction
+
+"""" Templates for c
+function CSKL()
+    :read ~/.vim/templates/skeleton.c
+endfunction
+
+function CClassSKL()
+    :read ~/.vim/templates/class_skeleton.c
+endfunction
+
+" ===========================
 "       My functions
 " ===========================
 
