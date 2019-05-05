@@ -9,7 +9,8 @@ set mouse=v
 
 "Enable vim syntax colors option
 syntax on
-colorscheme torte
+"colorscheme torte
+colorscheme custom_1
 
 set guifont=Monospace:h30
 
