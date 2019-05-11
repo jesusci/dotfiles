@@ -7,18 +7,53 @@ NC='\033[0m'
 
 REPO_HOME="$HOME/dotfiles"
 REPO_PWD=$(pwd)
+PRECONF=$REPO_HOME/prev_conf
 
 wvim=$(which vim)
 wtmux=$(which tmux)
 wnvim=$(which nvim)
 wzsh=$(which zsh)
 
+if [ ! -d "$PRECONF" ]; then
+    mkdir $PRECONF
+fi
+
+function save_prev_conf()
+{
+    if [ ! -d "$PRECONF/$1" ]; then
+        mkdir $PRECONF/$1
+    fi
+
+    if [ $1 == "vim" ]; then
+        cp $HOME/.vimrc $PRECONF/vim/.vimrc
+        rm $HOME/.vimrc
+        cp -r $HOME/.vim $PRECONF/vim/.vim
+        rm -rf $HOME/.vim
+
+    elif [ $1 == "nvim" ]; then
+        cp $HOME/.config/nvim/init.vim $PRECONF/nvim/init.vim
+        rm $HOME/.config/nvim/init.vim
+
+    elif [ $1 == "tmux" ]; then
+        cp $HOME/.tmux.conf $PRECONF/tmux/.tmux.conf
+        rm $HOME/.tmux.conf
+
+    elif [ $1 == "zsh" ]; then
+        cp $HOME/.zshrc $PRECONF/zsh/.zshrc
+        rm $HOME/.zshrc
+    fi
+}
+
 function install_package()
 {
     echo "Want to install $1, yes or no?"
     read user_ask
     if [ $user_ask == "yes" ]; then
-        sudo apt-get install $1
+        sudo apt-get install $1 -y
+        if [ $1 == "zsh" ]; then
+            chsh -s /usr/bin/zsh
+            wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh
+        fi
     elif [ $user_ask == "no" ]; then
         echo "$1 not installed"
     fi
@@ -58,11 +93,11 @@ if [ ! -z $wvim ]; then
         echo -n "  There is a current vim configuration: "
         check_diff $HOME/.vimrc $REPO_HOME/vim/.vimrc
         if [ $? -eq "2" ]; then
-            rm $HOME/.vimrc
+            save_prev_conf vim
             ln -s $REPO_HOME/vim/.vimrc    $HOME/.vimrc
-            echo "---- tmux configuration installed ----"
+            echo "---- vim configuration installed ----"
         elif [ $? -eq "3" ]; then
-            echo "---- tmux configuration not installed ----"
+            echo "---- vim configuration not installed ----"
         fi
     else
         ln -s $REPO_HOME/vim/.vimrc     $HOME/.vimrc
@@ -87,7 +122,7 @@ if [ ! -z $wtmux ]; then
         echo -n "  There is a current tmux configuration: "
         check_diff $HOME/.tmux.conf $REPO_HOME/tmux/.tmux.conf
         if [ $? -eq "2" ]; then
-            rm $HOME/.tmux.conf
+            save_prev_conf tmux
             ln -s $REPO_HOME/tmux/.tmux.conf    $HOME/.tmux.conf
             echo "---- tmux configuration installed ----"
         elif [ $? -eq "3" ]; then
@@ -113,7 +148,7 @@ if [ ! -z $wnvim ]; then
         echo -n "  There is a current Neovim configuration: "
         check_diff $HOME/.config/nvim/init.vim  $REPO_HOME/neovim/init.vim
         if [ $? -eq "2" ]; then
-            rm $HOME/.config/nvim/init.vim
+            save_prev_conf nvim
             ln -s $REPO_HOME/neovim/init.vim    $HOME/.config/nvim/init.vim
             echo "---- NeoVim configuration installed ----"
         elif [ $? -eq "3" ]; then
@@ -140,8 +175,9 @@ if [ ! -z $wzsh ]; then
         echo -n "  There is a current ZSH configuration: "
         check_diff $HOME/.zshrc $REPO_HOME/zsh/.zshrc
         if [ $? -eq "2" ]; then
-            rm $HOME/.zshrc
+            save_prev_conf zsh
             ln -s $REPO_HOME/zsh/.zshrc    $HOME/.zshrc
+            source $HOME/.zshrc
             echo "---- ZSH configuration installed ----"
         elif [ $? -eq "3" ]; then
             echo "---- ZSH configuration not installed ----"
@@ -154,7 +190,9 @@ if [ ! -z $wzsh ]; then
 else
     install_package zsh
     ###### instal if installation success also install oh-my-zsh
+    rm $HOME/.zshrc
     ln -s $REPO_HOME/zsh/.zshrc     $HOME/.zshrc
+    source $HOME/.zshrc
     echo "---- ZSH configuration installed ----"
 fi
 
