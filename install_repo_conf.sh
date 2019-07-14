@@ -1,18 +1,26 @@
 #!/bin/bash
 
+REPO_HOME="$HOME/dotfiles"
+REPO_PWD=$(pwd)
+PRECONF=$REPO_HOME/prev_conf
+
+if [ $REPO_HOME != $REPO_PWD ]; then
+    echo -e "${RED}To install dotfiles this repo must be in $REPO_HOME${NC}"
+    exit 0
+fi
+
 ##### Colours
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m'
 
-REPO_HOME="$HOME/dotfiles"
-REPO_PWD=$(pwd)
-PRECONF=$REPO_HOME/prev_conf
+ARCH=$(uname)
 
 wvim=$(which vim)
 wtmux=$(which tmux)
 wnvim=$(which nvim)
 wzsh=$(which zsh)
+wgit=$(which git)
 
 if [ ! -d "$PRECONF" ]; then
     mkdir $PRECONF
@@ -41,6 +49,10 @@ function save_prev_conf()
     elif [ $1 == "zsh" ]; then
         cp $HOME/.zshrc $PRECONF/zsh/.zshrc
         rm $HOME/.zshrc
+
+    elif [ $1 == "git" ]; then
+        cp $HOME/.gitconfig $PRECONF/.gitconfig
+        rm $HOME/.gitconfig
     fi
 }
 
@@ -48,12 +60,22 @@ function install_package()
 {
     echo "Want to install $1, yes or no?"
     read user_ask
+
     if [ $user_ask == "yes" ]; then
-        sudo apt-get install $1 -y
+
+        if [ $ARCH == "Linux" ]; then
+            sudo apt-get install $1 -y
+
+        elif [ $ARCH == "Darwin" ]; then
+            brew install $1
+        fi
+
+
         if [ $1 == "zsh" ]; then
             chsh -s /usr/bin/zsh
             wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh
         fi
+
     elif [ $user_ask == "no" ]; then
         echo "$1 not installed"
     fi
@@ -76,12 +98,6 @@ function check_diff()
         fi
     fi
 }
-
-
-if [ $REPO_HOME != $REPO_PWD ]; then
-    echo -e "${RED}To install dotfiles this repo must be in $REPO_HOME${NC}"
-    exit 0
-fi
 
 # ====================================================
 #               Vim configuration
@@ -189,11 +205,41 @@ if [ ! -z $wzsh ]; then
     fi
 else
     install_package zsh
-    ###### instal if installation success also install oh-my-zsh
+    ###### install if installation success also install oh-my-zsh
     rm $HOME/.zshrc
     ln -s $REPO_HOME/zsh/.zshrc     $HOME/.zshrc
     source $HOME/.zshrc
     echo "---- ZSH configuration installed ----"
 fi
 
+# ====================================================
+#               GIT configuration
+# ====================================================
+if [ ! -z $wgit ]; then
+    echo ""
+    echo "Checking GIT configuration..."
+    if [ -e $HOME/.gitconfig ]; then
+        echo -n "  There is a current GIT configuration: "
+        check_diff $HOME/.gitconfig $REPO_HOME/.gitconfig
+        if [ $? -eq "2" ]; then
+            save_prev_conf git
+            ln -s $REPO_HOME/.gitconfig    $HOME/.gitconfig
+            echo "---- GIT configuration installed ----"
+        elif [ $? -eq "3" ]; then
+            echo "---- GIT configuration not installed ----"
+        fi
+
+    else
+        ln -s $REPO_HOME/.gitconfig    $HOME/.gitconfig
+        echo "---- GIT configuration installed ----"
+    fi
+else
+    install_package git
+    rm $HOME/.gitconfig
+    ln -s $REPO_HOME/.gitconfig     $HOME/.gitconfig
+    echo "---- GIT configuration installed ----"
+fi
+
 echo ""
+
+
