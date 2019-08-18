@@ -18,7 +18,6 @@ ARCH=$(uname)
 
 wvim=$(which vim)
 wtmux=$(which tmux)
-wnvim=$(which nvim)
 wzsh=$(which zsh)
 wgit=$(which git)
 
@@ -37,10 +36,6 @@ function save_prev_conf()
         rm $HOME/.vimrc
         cp -r $HOME/.vim $PRECONF/vim/.vim
         rm -rf $HOME/.vim
-
-    elif [ $1 == "nvim" ]; then
-        cp $HOME/.config/nvim/init.vim $PRECONF/nvim/init.vim
-        rm $HOME/.config/nvim/init.vim
 
     elif [ $1 == "tmux" ]; then
         cp $HOME/.tmux.conf $PRECONF/tmux/.tmux.conf
@@ -154,32 +149,6 @@ else
     echo "---- tmux configuration installed ----"
 fi
 
-# ====================================================
-#               NeoVim configuration
-# ====================================================
-if [ ! -z $wnvim ]; then
-    echo ""
-    echo "Checking NeoVim configuration..."
-    if [ -e $HOME/.config/nvim/init.vim ]; then
-        echo -n "  There is a current Neovim configuration: "
-        check_diff $HOME/.config/nvim/init.vim  $REPO_HOME/neovim/init.vim
-        if [ $? -eq "2" ]; then
-            save_prev_conf nvim
-            ln -s $REPO_HOME/neovim/init.vim    $HOME/.config/nvim/init.vim
-            echo "---- NeoVim configuration installed ----"
-        elif [ $? -eq "3" ]; then
-            echo "---- NeoVim configuration not installed ----"
-        fi
-    else
-        mkdir $HOME/.config/nvim
-        ln -s $REPO_HOME/neovim/init.vim     $HOME/.config/nvim/init.vim
-        echo "---- NeoVim configuration installed ----"
-    fi
-else
-    install_package neovim
-    ln -s $REPO_HOME/neovim/init.vim     $HOME/.config/nvim/init.vim
-    echo "---- NeoVim configuration installed ----"
-fi
 
 # ====================================================
 #               ZSH configuration
