@@ -3,7 +3,8 @@
 NARGS=$#
 
 if [ "$NARGS" -eq 0 ]; then
-    echo "Usage 1: \"$0 install\" to install repo configuration"
+    echo "Usage 1: \"$0 install standard\" to install repo configuration standard"
+    echo "Usage 1: \"$0 install vim\" to install only vim configuration"
     echo "Usage 2: \"$0 recover\" to recover previous configuration"
     echo "Usage 3: \"$0 save\" to save actual configuration"
     exit 1
@@ -31,7 +32,16 @@ fi
 GLOBALMODE=$1
 
 if [ $GLOBALMODE == "install" ]; then
-    $REPO_HOME/install_repo_conf.sh
+    INSTALLMODE=$2
+    if [ "$INSTALLMODE" != "" ]; then
+        if [ "$INSTALLMODE" == "standard" ]; then
+            $REPO_HOME/install_repo_conf.sh standard
+        elif [ "$INSTALLMODE" == "vim" ];then
+            $REPO_HOME/install_repo_conf.sh vim
+        fi
+    else
+        $REPO_HOME/install_repo_conf.sh
+    fi
 elif [ $GLOBALMODE == "save" ]; then
     echo "logic to save"
 elif [ $GLOBALMODE == "recover" ]; then

@@ -94,121 +94,142 @@ function check_diff()
     fi
 }
 
-# ====================================================
-#               Vim configuration
-# ====================================================
-if [ ! -z $wvim ]; then
-    echo ""
-    echo "Checking vim configuration..."
-    if [ -e $HOME/.vimrc ]; then
-        echo -n "  There is a current vim configuration: "
-        check_diff $HOME/.vimrc $REPO_HOME/vim/.vimrc
-        if [ $? -eq "2" ]; then
-            save_prev_conf vim
-            ln -s $REPO_HOME/vim/.vimrc    $HOME/.vimrc
-            echo "---- vim configuration installed ----"
-        elif [ $? -eq "3" ]; then
-            echo "---- vim configuration not installed ----"
+function install_vim()
+{
+
+    # ====================================================
+    #               Vim configuration
+    # ====================================================
+    if [ ! -z $wvim ]; then
+        echo ""
+        echo "Checking vim configuration..."
+        if [ -e $HOME/.vimrc ]; then
+            echo -n "  There is a current vim configuration: "
+            check_diff $HOME/.vimrc $REPO_HOME/vim/.vimrc
+            if [ $? -eq "2" ]; then
+                save_prev_conf vim
+                ln -s $REPO_HOME/vim/.vimrc    $HOME/.vimrc
+                echo "---- vim configuration installed ----"
+            elif [ $? -eq "3" ]; then
+                echo "---- vim configuration not installed ----"
+            fi
+        else
+            ln -s $REPO_HOME/vim/.vimrc     $HOME/.vimrc
+            mkdir $HOME/.vim/colors
+            ln -s $REPO_HOME/colorschemes/custom_1.vim     $HOME/.vim/colors/custom_1.vim
+            echo "---- Vim configuration installed ----"
         fi
+
     else
-        ln -s $REPO_HOME/vim/.vimrc     $HOME/.vimrc
-        mkdir $HOME/.vim/colors
-        ln -s $REPO_HOME/colorschemes/custom_1.vim     $HOME/.vim/colors/custom_1.vim
-        echo "---- Vim configuration installed ----"
+        install_package vim
+        ln -s $REPO_HOME/vim/.vimrc   $HOME/.vimrc
+        echo "---- VIM configuration installed ----"
     fi
+}
 
-else
-    install_package vim
-    ln -s $REPO_HOME/vim/.vimrc   $HOME/.vimrc
-    echo "---- VIM configuration installed ----"
-fi
-
-# ====================================================
-#               TMUX configuration
-# ====================================================
-if [ ! -z $wtmux ]; then
-    echo ""
-    echo "Checking tmux configuration..."
-    if [ -e $HOME/.tmux.conf ]; then
-        echo -n "  There is a current tmux configuration: "
-        check_diff $HOME/.tmux.conf $REPO_HOME/tmux/.tmux.conf
-        if [ $? -eq "2" ]; then
-            save_prev_conf tmux
-            ln -s $REPO_HOME/tmux/.tmux.conf    $HOME/.tmux.conf
+function install_tmux()
+{
+    # ====================================================
+    #               TMUX configuration
+    # ====================================================
+    if [ ! -z $wtmux ]; then
+        echo ""
+        echo "Checking tmux configuration..."
+        if [ -e $HOME/.tmux.conf ]; then
+            echo -n "  There is a current tmux configuration: "
+            check_diff $HOME/.tmux.conf $REPO_HOME/tmux/.tmux.conf
+            if [ $? -eq "2" ]; then
+                save_prev_conf tmux
+                ln -s $REPO_HOME/tmux/.tmux.conf    $HOME/.tmux.conf
+                echo "---- tmux configuration installed ----"
+            elif [ $? -eq "3" ]; then
+                echo "---- tmux configuration not installed ----"
+            fi
+        else
+            ln -s $REPO_HOME/tmux/.tmux.conf     $HOME/.tmux.conf
             echo "---- tmux configuration installed ----"
-        elif [ $? -eq "3" ]; then
-            echo "---- tmux configuration not installed ----"
         fi
     else
-        ln -s $REPO_HOME/tmux/.tmux.conf     $HOME/.tmux.conf
+        install_package tmux
+        ln -s $REPO_HOME/tmux/.tmux.conf   $HOME/.tmux.conf
         echo "---- tmux configuration installed ----"
     fi
-else
-    install_package tmux
-    ln -s $REPO_HOME/tmux/.tmux.conf   $HOME/.tmux.conf
-    echo "---- tmux configuration installed ----"
-fi
+}
 
+function install_zsh()
+{
+    # ====================================================
+    #               ZSH configuration
+    # ====================================================
+    if [ ! -z $wzsh ]; then
+        echo ""
+        echo "Checking ZSH configuration..."
+        if [ -e $HOME/.zshrc ]; then
+            echo -n "  There is a current ZSH configuration: "
+            check_diff $HOME/.zshrc $REPO_HOME/zsh/.zshrc
+            if [ $? -eq "2" ]; then
+                save_prev_conf zsh
+                ln -s $REPO_HOME/zsh/.zshrc    $HOME/.zshrc
+                source $HOME/.zshrc
+                echo "---- ZSH configuration installed ----"
+            elif [ $? -eq "3" ]; then
+                echo "---- ZSH configuration not installed ----"
+            fi
 
-# ====================================================
-#               ZSH configuration
-# ====================================================
-if [ ! -z $wzsh ]; then
-    echo ""
-    echo "Checking ZSH configuration..."
-    if [ -e $HOME/.zshrc ]; then
-        echo -n "  There is a current ZSH configuration: "
-        check_diff $HOME/.zshrc $REPO_HOME/zsh/.zshrc
-        if [ $? -eq "2" ]; then
-            save_prev_conf zsh
+        else
             ln -s $REPO_HOME/zsh/.zshrc    $HOME/.zshrc
-            source $HOME/.zshrc
             echo "---- ZSH configuration installed ----"
-        elif [ $? -eq "3" ]; then
-            echo "---- ZSH configuration not installed ----"
         fi
-
     else
-        ln -s $REPO_HOME/zsh/.zshrc    $HOME/.zshrc
+        install_package zsh
+        ###### install if installation success also install oh-my-zsh
+        rm $HOME/.zshrc
+        ln -s $REPO_HOME/zsh/.zshrc     $HOME/.zshrc
+        source $HOME/.zshrc
         echo "---- ZSH configuration installed ----"
     fi
-else
-    install_package zsh
-    ###### install if installation success also install oh-my-zsh
-    rm $HOME/.zshrc
-    ln -s $REPO_HOME/zsh/.zshrc     $HOME/.zshrc
-    source $HOME/.zshrc
-    echo "---- ZSH configuration installed ----"
-fi
+}
 
-# ====================================================
-#               GIT configuration
-# ====================================================
-if [ ! -z $wgit ]; then
-    echo ""
-    echo "Checking GIT configuration..."
-    if [ -e $HOME/.gitconfig ]; then
-        echo -n "  There is a current GIT configuration: "
-        check_diff $HOME/.gitconfig $REPO_HOME/.gitconfig
-        if [ $? -eq "2" ]; then
-            save_prev_conf git
+function install_git()
+{
+    # ====================================================
+    #               GIT configuration
+    # ====================================================
+    if [ ! -z $wgit ]; then
+        echo ""
+        echo "Checking GIT configuration..."
+        if [ -e $HOME/.gitconfig ]; then
+            echo -n "  There is a current GIT configuration: "
+            check_diff $HOME/.gitconfig $REPO_HOME/.gitconfig
+            if [ $? -eq "2" ]; then
+                save_prev_conf git
+                ln -s $REPO_HOME/.gitconfig    $HOME/.gitconfig
+                echo "---- GIT configuration installed ----"
+            elif [ $? -eq "3" ]; then
+                echo "---- GIT configuration not installed ----"
+            fi
+
+        else
             ln -s $REPO_HOME/.gitconfig    $HOME/.gitconfig
             echo "---- GIT configuration installed ----"
-        elif [ $? -eq "3" ]; then
-            echo "---- GIT configuration not installed ----"
         fi
-
     else
-        ln -s $REPO_HOME/.gitconfig    $HOME/.gitconfig
+        install_package git
+        rm $HOME/.gitconfig
+        ln -s $REPO_HOME/.gitconfig     $HOME/.gitconfig
         echo "---- GIT configuration installed ----"
     fi
-else
-    install_package git
-    rm $HOME/.gitconfig
-    ln -s $REPO_HOME/.gitconfig     $HOME/.gitconfig
-    echo "---- GIT configuration installed ----"
+}
+
+GLOBALMODE=$1
+
+if [ "$GLOBALMODE" == "standard" ];then
+    install_vim
+    install_tmux
+    install_zsh
+    install_git
+elif [ "$GLOBALMODE" == "vim" ];then
+    install_vim
 fi
 
 echo ""
-
-
