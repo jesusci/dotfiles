@@ -14,6 +14,9 @@ colorscheme torte
 
 set guifont=Monospace:h30
 
+set encoding=utf-8
+set fileencoding=utf-8
+
 " See the tabs in your code
 set list listchars=tab:>-,trail:·
 set autoindent
@@ -39,6 +42,9 @@ nnoremap <C-x><left> <C-w><left>
 nnoremap <C-x><right> <C-w><right>
 nnoremap <C-x><up> <C-w><up>
 nnoremap <C-x><down> <C-w><down>
+
+"" NERDTree
+map <C-n> :NERDTreeToggle<CR>
 
 set pastetoggle=<f5>
 

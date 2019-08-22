@@ -1,3 +1,6 @@
 [submodule "vim/pack/test/start/YouCompleteMe"]
 	path = vim/pack/test/start/YouCompleteMe
 	url = https://github.com/ycm-core/YouCompleteMe.git
+[submodule "vim/pack/nerdtree/start/NERDTree"]
+	path = vim/pack/nerdtree/start/NERDTree
+	url = https://github.com/scrooloose/nerdtree
