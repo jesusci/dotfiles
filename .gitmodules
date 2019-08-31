@@ -3,4 +3,4 @@
 	url = https://github.com/ycm-core/YouCompleteMe.git
 [submodule "vim/pack/nerdtree/start/NERDTree"]
 	path = vim/pack/nerdtree/start/NERDTree
-	url = https://github.com/scrooloose/nerdtree
+	url = https://github.com/scrooloose/nerdtree.git

@@ -109,20 +109,21 @@ function install_vim()
             if [ $? -eq "2" ]; then
                 save_prev_conf vim
                 ln -s $REPO_HOME/vim/.vimrc    $HOME/.vimrc
+                ln -s $REPO_HOME/vim/   $HOME/.vim
                 echo "---- vim configuration installed ----"
             elif [ $? -eq "3" ]; then
                 echo "---- vim configuration not installed ----"
             fi
         else
             ln -s $REPO_HOME/vim/.vimrc     $HOME/.vimrc
-            mkdir $HOME/.vim/colors
-            ln -s $REPO_HOME/colorschemes/custom_1.vim     $HOME/.vim/colors/custom_1.vim
+            ln -s $REPO_HOME/vim/ $HOME/.vim
             echo "---- Vim configuration installed ----"
         fi
 
     else
         install_package vim
         ln -s $REPO_HOME/vim/.vimrc   $HOME/.vimrc
+        ln -s $REPO_HOME/vim/   $HOME/.vim
         echo "---- VIM configuration installed ----"
     fi
 }
