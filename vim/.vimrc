@@ -6,6 +6,11 @@
 set number
 "Set into visual mode whenever select something with the mouse
 set mouse=v
+set laststatus=1
+
+set nowrap
+set showmatch
+
 
 "Enable vim syntax colors option
 syntax on
