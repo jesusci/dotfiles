@@ -48,6 +48,22 @@ nnoremap <C-x><right> <C-w><right>
 nnoremap <C-x><up> <C-w><up>
 nnoremap <C-x><down> <C-w><down>
 
+"" Direction keys adapted to spanish keyboard
+nnoremap j h
+nnoremap k j
+nnoremap l k
+nnoremap ñ l
+
+nnoremap <C-w>j <C-w>h
+nnoremap <C-w>k <C-w>j
+nnoremap <C-w>l <C-w>k
+nnoremap <C-w>ñ <C-w>l
+
+vnoremap j h
+vnoremap k j
+vnoremap l k
+vnoremap ñ l
+
 "" NERDTree
 map <C-n> :NERDTreeToggle<CR>
 

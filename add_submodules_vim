@@ -1,0 +1,16 @@
+in dotfile directory follow this step:
+    git submodule init
+    git submodule add <git_repository_of_submodule> <path_to_save_submodule>
+    git add .gitmodules <path_to_save_submodule>
+    git commit
+
+    e.g.
+
+    git submodule init
+    git submodule add https://github.com/vim-airline/vim-airline.git vim/pack/shapeshed/start/vim-airline
+    git add .gitmodules vim/pack/shapeshed/start/vim-airline
+    git commit
+
+To upgrade de submodules:
+    git submodule update --remote --merge
+    git commit
