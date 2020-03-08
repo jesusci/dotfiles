@@ -6,4 +6,4 @@
 	url = https://github.com/scrooloose/nerdtree.git
 [submodule "vim/pack/gitting/start/fugitive"]
 	path = vim/pack/gitting/start/fugitive
-	url = https://github.com/tpope/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive.git
