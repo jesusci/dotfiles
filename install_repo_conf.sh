@@ -70,6 +70,10 @@ function install_package()
             chsh -s /usr/bin/zsh
             wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh
         fi
+        if [ $1 == "vim" ]; then
+            ##TODO
+            echo "logic to install all the packages"
+        fi
 
     elif [ $user_ask == "no" ]; then
         echo "$1 not installed"

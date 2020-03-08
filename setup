@@ -9,7 +9,7 @@ if [ "$NARGS" -eq 0 ]; then
     echo "Usage 3: \"$0 save\" to save actual configuration"
     exit 1
 else
-    if [ "$1" != "install" ] && [ "$1" != "recover" ] && [ "$1" != "save" ]; then
+    if [ "$1" != "install" ] && [ "$1" != "recover" ] && [ "$1" != "save" ] && [ "$1" != "update_submodules" ]; then
         echo "Invalid argument $1"
         exit 1
     fi
@@ -38,7 +38,10 @@ if [ $GLOBALMODE == "install" ]; then
             $REPO_HOME/install_repo_conf.sh standard
         elif [ "$INSTALLMODE" == "vim" ];then
             $REPO_HOME/install_repo_conf.sh vim
+        elif [ "$INSTALLMODE" == "submodules" ];then
+            $REPO_HOME/install_vim_submodules.sh
         fi
+
     else
         $REPO_HOME/install_repo_conf.sh
     fi
@@ -46,6 +49,9 @@ elif [ $GLOBALMODE == "save" ]; then
     echo "logic to save"
 elif [ $GLOBALMODE == "recover" ]; then
     echo "logic to recover"
+elif [ $GLOBALMODE == "update_submodules" ]; then
+    git submodule update --remote --merge
+    git commit
 fi
 
 exit 1

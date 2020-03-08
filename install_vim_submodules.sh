@@ -2,12 +2,6 @@
 
 REPO_HOME="$HOME/dotfiles"
 REPO_PWD=$(pwd)
-PRECONF=$REPO_HOME/prev_conf
-
-if [ $REPO_HOME != $REPO_PWD ]; then
-    echo -e "${RED}To install dotfiles this repo must be in $REPO_HOME${NC}"
-    exit 0
-fi
 
 ##### Colours
 RED='\033[0;31m'
