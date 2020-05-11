@@ -18,6 +18,7 @@ fi
 REPO_HOME="$HOME/dotfiles"
 REPO_PWD=$(pwd)
 PRECONF=$REPO_HOME/prev_conf
+REPO_UTILS=$REPO_HOME/utils
 
 ##### Colours
 RED='\033[0;31m'
@@ -35,19 +36,21 @@ if [ $GLOBALMODE == "install" ]; then
     INSTALLMODE=$2
     if [ "$INSTALLMODE" != "" ]; then
         if [ "$INSTALLMODE" == "standard" ]; then
-            $REPO_HOME/install_repo_conf.sh standard
+            $REPO_UTILS/install_repo_conf.sh standard
         elif [ "$INSTALLMODE" == "vim" ];then
-            $REPO_HOME/install_repo_conf.sh vim
+            $REPO_UTILS/install_repo_conf.sh vim
         elif [ "$INSTALLMODE" == "submodules" ];then
-            $REPO_HOME/install_vim_submodules.sh
+            $REPO_UTILS/install_vim_submodules.sh
         fi
 
     else
-        $REPO_HOME/install_repo_conf.sh
+        $REPO_UTILS/install_repo_conf.sh
     fi
 elif [ $GLOBALMODE == "save" ]; then
+    #TODO
     echo "logic to save"
 elif [ $GLOBALMODE == "recover" ]; then
+    #TODO
     echo "logic to recover"
 elif [ $GLOBALMODE == "update_submodules" ]; then
     git submodule update --remote --merge

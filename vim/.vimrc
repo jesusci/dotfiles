@@ -11,7 +11,6 @@ set laststatus=1
 set nowrap
 set showmatch
 
-
 "Enable vim syntax colors option
 syntax on
 colorscheme torte
@@ -43,10 +42,11 @@ map <A-Right> gt
 "" Move to left tab
 map <A-Left> gT
 
-nnoremap <C-x><left> <C-w><left>
-nnoremap <C-x><right> <C-w><right>
-nnoremap <C-x><up> <C-w><up>
-nnoremap <C-x><down> <C-w><down>
+:map <Space> <Leader>
+nnoremap <Leader>j <C-w><left>
+nnoremap <Leader>ñ <C-w><right>
+nnoremap <Leader>k <C-w><down>
+nnoremap <Leader>l <C-w><up>
 
 "" Direction keys adapted to spanish keyboard
 nnoremap j h
