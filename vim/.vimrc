@@ -64,6 +64,11 @@ vnoremap k j
 vnoremap l k
 vnoremap ñ l
 
+"" Using Leader to save, quit and save and quit
+map <Leader>q <Esc>:q<CR>
+map <Leader>w <Esc>:w<CR>
+map <Leader>wq <Esc>:wq<CR>
+
 "" NERDTree
 map <C-n> :NERDTreeToggle<CR>
 

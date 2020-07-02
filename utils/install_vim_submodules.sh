@@ -25,6 +25,7 @@ function install_youcomplete_me()
 }
 
 GLOBALMODE=$1
+git submodule update --init --recursive
 install_youcomplete_me
 
 echo ""
