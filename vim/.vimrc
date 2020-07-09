@@ -2,16 +2,17 @@
 "       Vim Configuration
 " =============================
 
-"Show line numbers
+" Show line numbers
 set number
-"Set into visual mode whenever select something with the mouse
+
+" Set into visual mode whenever select something with the mouse
 set mouse=v
 set laststatus=1
 
 set nowrap
 set showmatch
 
-"Enable vim syntax colors option
+" Enable vim syntax colors option
 syntax on
 colorscheme torte
 "colorscheme custom_1
@@ -20,6 +21,14 @@ set guifont=Monospace:h30
 
 set encoding=utf-8
 set fileencoding=utf-8
+
+" Vsplit to right, split to down
+set splitright
+set splitbelow
+
+" Use vim clipboard as host clipboard
+set clipboard=unnamed
+set showcmd
 
 " See the tabs in your code
 set list listchars=tab:>-,trail:·
@@ -85,7 +94,7 @@ nmap <F9> mz:execute TabSwap()<CR>'z
 " =============================
 
 
-"========= General ===========
+" ========= General ===========
 imap ;{  {}<left><CR><CR><up><TAB>
 imap ;(  ()<left>
 
