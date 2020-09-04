@@ -3,11 +3,13 @@
 " =============================
 
 " Show line numbers
+set rnu
 set number
 
 " Set into visual mode whenever select something with the mouse
 set mouse=v
-set laststatus=1
+" Always shot the statusline
+set laststatus=2
 
 set nowrap
 set showmatch
@@ -29,6 +31,7 @@ set splitbelow
 " Use vim clipboard as host clipboard
 set clipboard=unnamed
 set showcmd
+set wildmenu
 
 " See the tabs in your code
 set list listchars=tab:>-,trail:·
@@ -51,7 +54,7 @@ map <A-Right> gt
 "" Move to left tab
 map <A-Left> gT
 
-:map <Space> <Leader>
+map <Space> <Leader>
 nnoremap <Leader>j <C-w><left>
 nnoremap <Leader>ñ <C-w><right>
 nnoremap <Leader>k <C-w><down>
@@ -73,12 +76,12 @@ vnoremap k j
 vnoremap l k
 vnoremap ñ l
 
-"" Using Leader to save, quit and save and quit
+" Using Leader to save, quit and save and quit
 map <Leader>q <Esc>:q<CR>
 map <Leader>w <Esc>:w<CR>
 map <Leader>wq <Esc>:wq<CR>
 
-"" NERDTree
+" NERDTree
 map <C-n> :NERDTreeToggle<CR>
 
 set pastetoggle=<f5>
