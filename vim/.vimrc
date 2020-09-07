@@ -13,6 +13,7 @@ set laststatus=2
 
 set nowrap
 set showmatch
+set hlsearch
 
 " Enable vim syntax colors option
 syntax on
