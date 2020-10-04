@@ -1,4 +1,4 @@
-in dotfile directory follow this step:
+In dotfile directory follow this step:
     git submodule init
     git submodule add <git_repository_of_submodule> <path_to_save_submodule>
     git add .gitmodules <path_to_save_submodule>

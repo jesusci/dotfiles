@@ -1,38 +1,31 @@
 #!/bin/bash
 
+source ./utils/print_options.sh
+
 NARGS=$#
+OP=$1
+REPO_PWD=$(pwd)
+REPO_UTILS=$REPO_PWD/utils
+
+function print_usage(){
+    print_yellow "Usage: \"$0 install standard\" to install repo configuration standard"
+    print_yellow "Usage: \"$0 install vim\" to install only vim configuration"
+    print_yellow "Usage: \"$0 update submodules\" to update vim submodules"
+#    echo "Usage 2: \"$0 recover\" to recover previous configuration"
+#    echo "Usage 3: \"$0 save\" to save actual configuration"
+    exit 1
+}
 
 if [ "$NARGS" -eq 0 ]; then
-    echo "Usage 1: \"$0 install standard\" to install repo configuration standard"
-    echo "Usage 1: \"$0 install vim\" to install only vim configuration"
-    echo "Usage 2: \"$0 recover\" to recover previous configuration"
-    echo "Usage 3: \"$0 save\" to save actual configuration"
-    exit 1
+    print_usage
 else
-    if [ "$1" != "install" ] && [ "$1" != "recover" ] && [ "$1" != "save" ] && [ "$1" != "update_submodules" ]; then
-        echo "Invalid argument $1"
-        exit 1
+    if [ "$OP" != "install" ] && [ "$OP" != "recover" ] && [ "$OP" != "save" ] && [ "$OP" != "update" ]; then
+        print_red "Invalid option $OP"
+        print_usage
     fi
 fi
 
-REPO_HOME="$HOME/dotfiles"
-REPO_PWD=$(pwd)
-PRECONF=$REPO_HOME/prev_conf
-REPO_UTILS=$REPO_HOME/utils
-
-##### Colours
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-NC='\033[0m'
-
-if [ $REPO_HOME != $REPO_PWD ]; then
-    echo -e "${RED}To install dotfiles this repo must be in $REPO_HOME${NC}"
-    exit 0
-fi
-
-GLOBALMODE=$1
-
-if [ $GLOBALMODE == "install" ]; then
+if [ "$OP" == "install" ]; then
     INSTALLMODE=$2
     if [ "$INSTALLMODE" != "" ]; then
         if [ "$INSTALLMODE" == "standard" ]; then
@@ -42,19 +35,27 @@ if [ $GLOBALMODE == "install" ]; then
         elif [ "$INSTALLMODE" == "submodules" ];then
             $REPO_UTILS/install_vim_submodules.sh
         fi
-
     else
         $REPO_UTILS/install_repo_conf.sh
     fi
-elif [ $GLOBALMODE == "save" ]; then
-    #TODO
-    echo "logic to save"
-elif [ $GLOBALMODE == "recover" ]; then
-    #TODO
-    echo "logic to recover"
-elif [ $GLOBALMODE == "update_submodules" ]; then
-    git submodule update --remote --merge
-    git commit
+elif [ "$OP" == "save" ]; then
+    #TODO: logic to save
+    print_usage
+elif [ "$OP" == "recover" ]; then
+    #TODO: logic to recover
+    print_usage
+elif [ "$OP" == "update" ]; then
+    UPDATEMODE=$2
+    if [ "$UPDATEMODE" != "" ]; then
+        if [ "$UPDATEMODE" == "submodules" ]; then
+            git submodule update --remote --merge
+            git commit
+        else
+            print_yellow "Suboptions valid for update: submodules"
+        fi
+    else
+        print_yellow "Suboptions valid for update: submodules"
+    fi
 fi
 
 exit 1
