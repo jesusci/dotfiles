@@ -71,6 +71,7 @@ plugins=(
 )
 
 source $ZSH/oh-my-zsh.sh
+source $HOME/.zshrc_aliases.sh
 alias mygit="cd ~/mygit"
 
 # User configuration

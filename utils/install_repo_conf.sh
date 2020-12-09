@@ -3,7 +3,7 @@
 REPO_PWD=$(pwd)
 PRECONF=$REPO_PWD/prev_conf
 
-source ./utils/print_options.sh
+source $REPO_PWD/utils/print_options.sh
 
 ARCH=$(uname)
 
@@ -60,8 +60,7 @@ function install_package()
         if [ $1 == "zsh" ]; then
             chsh -s /usr/bin/zsh
             wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh
-        fi
-        if [ $1 == "vim" ]; then
+        elif [ $1 == "vim" ]; then
             ##TODO
             print_red "TODO: logic to install all the packages"
         fi
@@ -116,6 +115,7 @@ function install_vim()
         fi
 
     else
+        print_yellow "Vim not installed"
         install_package vim
         ln -s $REPO_PWD/vim/.vimrc   $HOME/.vimrc
         ln -s $REPO_PWD/vim/   $HOME/.vim

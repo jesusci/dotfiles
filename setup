@@ -1,16 +1,17 @@
 #!/bin/bash
 
-source ./utils/print_options.sh
-
 NARGS=$#
 OP=$1
 REPO_PWD=$(pwd)
 REPO_UTILS=$REPO_PWD/utils
 
+source $REPO_PWD/utils/print_options.sh
+
 function print_usage(){
     print_yellow "Usage: \"$0 install standard\" to install repo configuration standard"
     print_yellow "Usage: \"$0 install vim\" to install only vim configuration"
     print_yellow "Usage: \"$0 update submodules\" to update vim submodules"
+    print_yellow "Usage: \"$0 recover\" to set the last stable configuration"
 #    echo "Usage 2: \"$0 recover\" to recover previous configuration"
 #    echo "Usage 3: \"$0 save\" to save actual configuration"
     exit 1
@@ -42,8 +43,8 @@ elif [ "$OP" == "save" ]; then
     #TODO: logic to save
     print_usage
 elif [ "$OP" == "recover" ]; then
-    #TODO: logic to recover
-    print_usage
+    echo "Recovering configuration"
+    $REPO_UTILS/fix_conf.sh
 elif [ "$OP" == "update" ]; then
     UPDATEMODE=$2
     if [ "$UPDATEMODE" != "" ]; then
