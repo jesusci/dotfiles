@@ -12,8 +12,11 @@ set mouse=v
 set laststatus=2
 
 set nowrap
-set showmatch
+
+" Searching configure
 set hlsearch
+set showmatch
+set ignorecase
 
 " Enable vim syntax colors option
 syntax on
@@ -81,6 +84,7 @@ vnoremap ñ l
 map <Leader>q <Esc>:q<CR>
 map <Leader>w <Esc>:w<CR>
 map <Leader>wq <Esc>:wq<CR>
+map <Leader>wqa <Esc>:wqa<CR>
 
 " NERDTree
 map <C-n> :NERDTreeToggle<CR>
