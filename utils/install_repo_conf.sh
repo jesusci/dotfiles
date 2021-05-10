@@ -50,7 +50,11 @@ function install_package()
     if [ $user_ask == "yes" ]; then
 
         if [ $ARCH == "Linux" ]; then
-            sudo apt-get install $1 -y
+            if [ $1 == "vim" ]; then
+                sudo apt-get install vim-gtk -y
+            else
+                sudo apt-get install $1 -y
+            fi
 
         elif [ $ARCH == "Darwin" ]; then
             brew install $1

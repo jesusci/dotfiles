@@ -11,8 +11,6 @@ set mouse=v
 " Always shot the statusline
 set laststatus=2
 
-set nowrap
-
 " Searching configure
 set hlsearch
 set showmatch

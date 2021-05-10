@@ -10,6 +10,7 @@ source $REPO_PWD/utils/print_options.sh
 function print_usage(){
     print_yellow "Usage: \"$0 install standard\" to install repo configuration standard"
     print_yellow "Usage: \"$0 install vim\" to install only vim configuration"
+    print_yellow "Usage: \"$0 install submodules\" to install submodules"
     print_yellow "Usage: \"$0 update submodules\" to update vim submodules"
     print_yellow "Usage: \"$0 recover\" to set the last stable configuration"
 #    echo "Usage 2: \"$0 recover\" to recover previous configuration"
