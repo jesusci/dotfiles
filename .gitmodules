@@ -1,9 +1,9 @@
-[submodule "vim/pack/test/start/YouCompleteMe"]
-	path = vim/pack/test/start/YouCompleteMe
+[submodule "vim/pack/youcompleteme/start/YouCompleteMe"]
+	path = vim/pack/youcompleteme/start/YouCompleteMe
 	url = https://github.com/ycm-core/YouCompleteMe.git
-[submodule "vim/pack/nerdtree/start/NERDTree"]
-	path = vim/pack/nerdtree/start/NERDTree
+[submodule "vim/pack/nerdtree/start/nerdtree"]
+	path = vim/pack/nerdtree/start/nerdtree
 	url = https://github.com/scrooloose/nerdtree.git
-[submodule "vim/pack/gitting/start/fugitive"]
-	path = vim/pack/gitting/start/fugitive
+[submodule "vim/pack/fugitive/start/fugitive"]
+	path = vim/pack/fugitive/start/fugitive
 	url = https://github.com/tpope/vim-fugitive.git
