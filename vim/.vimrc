@@ -10,8 +10,10 @@ set number
 set mouse=v
 " Always shot the statusline
 set laststatus=2
+set cursorline
 
 " Searching configure
+set incsearch
 set hlsearch
 set showmatch
 set ignorecase
@@ -83,6 +85,9 @@ map <Leader>q <Esc>:q<CR>
 map <Leader>w <Esc>:w<CR>
 map <Leader>wq <Esc>:wq<CR>
 map <Leader>wqa <Esc>:wqa<CR>
+
+" Unmark highlited items
+map <Leader><Esc> <Esc>:noh<CR>
 
 " NERDTree
 map <C-n> :NERDTreeToggle<CR>

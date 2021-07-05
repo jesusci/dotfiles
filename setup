@@ -8,13 +8,14 @@ REPO_UTILS=$REPO_PWD/utils
 source $REPO_PWD/utils/print_options.sh
 
 function print_usage(){
-    print_yellow "Usage: \"$0 install standard\" to install repo configuration standard"
-    print_yellow "Usage: \"$0 install vim\" to install only vim configuration"
-    print_yellow "Usage: \"$0 install submodules\" to install submodules"
-    print_yellow "Usage: \"$0 update submodules\" to update vim submodules"
-    print_yellow "Usage: \"$0 recover\" to set the last stable configuration"
+    print_warning "Usage: \"$0 install standard\" to install repo configuration standard"
+    print_warning "Usage: \"$0 install [vim|tmux]\" to install only [vim|tmux] configuration"
+    print_warning "Usage: \"$0 install submodules\" to install submodules"
+    print_warning "Usage: \"$0 update submodules\" to update vim submodules"
+    print_warning "Usage: \"$0 recover\" to set the last stable configuration"
 #    echo "Usage 2: \"$0 recover\" to recover previous configuration"
 #    echo "Usage 3: \"$0 save\" to save actual configuration"
+#    echo "Usage 3: \"$0 uninstall\" to delete all configuration from this repo and restore the original"
     exit 1
 }
 
@@ -22,7 +23,7 @@ if [ "$NARGS" -eq 0 ]; then
     print_usage
 else
     if [ "$OP" != "install" ] && [ "$OP" != "recover" ] && [ "$OP" != "save" ] && [ "$OP" != "update" ]; then
-        print_red "Invalid option $OP"
+        print_error "Invalid option $OP"
         print_usage
     fi
 fi
@@ -32,8 +33,8 @@ if [ "$OP" == "install" ]; then
     if [ "$INSTALLMODE" != "" ]; then
         if [ "$INSTALLMODE" == "standard" ]; then
             $REPO_UTILS/install_repo_conf.sh standard
-        elif [ "$INSTALLMODE" == "vim" ];then
-            $REPO_UTILS/install_repo_conf.sh vim
+        elif [ "$INSTALLMODE" == "vim" ] || [ "$INSTALLMODE" == "tmux" ];then
+            $REPO_UTILS/install_repo_conf.sh $INSTALLMODE
         elif [ "$INSTALLMODE" == "submodules" ];then
             $REPO_UTILS/install_vim_submodules.sh
         fi
@@ -53,10 +54,10 @@ elif [ "$OP" == "update" ]; then
             git submodule update --remote --merge
             git commit
         else
-            print_yellow "Suboptions valid for update: submodules"
+            print_warning "Suboptions valid for update: submodules"
         fi
     else
-        print_yellow "Suboptions valid for update: submodules"
+        print_warning "Suboptions valid for update: submodules"
     fi
 fi
 

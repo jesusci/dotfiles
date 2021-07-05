@@ -14,19 +14,19 @@ function print_with_color()
     echo -e "${COLOUR} $MSG ${NC}"
 }
 
-function print_green()
+function print_info()
 {
     MSG=$1
     echo -e "${GREEN} $MSG ${NC}"
 }
 
-function print_red()
+function print_error()
 {
     MSG=$1
     echo -e "${RED} $MSG ${NC}"
 }
 
-function print_yellow(){
+function print_warning(){
     MSG=$1
     echo -e "${YELLOW} $MSG ${NC}"
 }

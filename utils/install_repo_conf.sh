@@ -44,7 +44,7 @@ function save_prev_conf()
 
 function install_package()
 {
-    print_yellow "Want to install $1, yes or no?"
+    print_warning "Want to install $1, yes or no?"
     read user_ask
 
     if [ $user_ask == "yes" ]; then
@@ -66,11 +66,11 @@ function install_package()
             wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh
         elif [ $1 == "vim" ]; then
             ##TODO
-            print_red "TODO: logic to install all the packages"
+            print_error "TODO: logic to install all the packages"
         fi
 
     elif [ $user_ask == "no" ]; then
-        print_red "$1 not installed"
+        print_error "$1 not installed"
     fi
 }
 
@@ -79,10 +79,10 @@ function check_diff()
     result=$(diff $1 $2)
 
     if [ $? -eq 0 ];then
-        print_green "Current local configuration and repo configuration are the same"
+        print_info "Current local configuration and repo configuration are the same"
     else
-        print_red "Current local configuration and repo configuration are different"
-        print_yellow "Want to overwrite with repo configuration, yes or no?"
+        print_error "Current local configuration and repo configuration are different"
+        print_warning "Want to overwrite with repo configuration, yes or no?"
         read user_ask
         if [ $user_ask == "yes" ]; then
             return 2
@@ -100,30 +100,30 @@ function install_vim()
     # ====================================================
     if [ ! -z $wvim ]; then
         echo ""
-        print_yellow "Checking vim configuration..."
+        print_warning "Checking vim configuration..."
         if [ -e $HOME/.vimrc ]; then
-            print_yellow "  There is a current vim configuration: "
+            print_warning "  There is a current vim configuration: "
             check_diff $HOME/.vimrc $REPO_PWD/vim/.vimrc
             if [ $? -eq "2" ]; then
                 save_prev_conf vim
                 ln -s $REPO_PWD/vim/.vimrc    $HOME/.vimrc
                 ln -s $REPO_PWD/vim/   $HOME/.vim
-                print_green "---- Vim configuration installed ----"
+                print_info "---- Vim configuration installed ----"
             elif [ $? -eq "3" ]; then
-                print_red "---- Vim configuration not installed ----"
+                print_error "---- Vim configuration not installed ----"
             fi
         else
             ln -s $REPO_PWD/vim/.vimrc     $HOME/.vimrc
             ln -s $REPO_PWD/vim/ $HOME/.vim
-            print_green "---- Vim configuration installed ----"
+            print_info "---- Vim configuration installed ----"
         fi
 
     else
-        print_yellow "Vim not installed"
+        print_warning "Vim not installed"
         install_package vim
         ln -s $REPO_PWD/vim/.vimrc   $HOME/.vimrc
         ln -s $REPO_PWD/vim/   $HOME/.vim
-        print_green "---- Vim configuration installed ----"
+        print_info "---- Vim configuration installed ----"
     fi
 }
 
@@ -134,25 +134,25 @@ function install_tmux()
     # ====================================================
     if [ ! -z $wtmux ]; then
         echo ""
-        print_yellow "Checking tmux configuration..."
+        print_warning "Checking tmux configuration..."
         if [ -e $HOME/.tmux.conf ]; then
-            print_yellow "  There is a current tmux configuration: "
+            print_warning "  There is a current tmux configuration: "
             check_diff $HOME/.tmux.conf $REPO_PWD/tmux/.tmux.conf
             if [ $? -eq "2" ]; then
                 save_prev_conf tmux
                 ln -s $REPO_PWD/tmux/.tmux.conf    $HOME/.tmux.conf
-                print_green "---- tmux configuration installed ----"
+                print_info "---- tmux configuration installed ----"
             elif [ $? -eq "3" ]; then
-                print_red "---- tmux configuration not installed ----"
+                print_error "---- tmux configuration not installed ----"
             fi
         else
             ln -s $REPO_PWD/tmux/.tmux.conf     $HOME/.tmux.conf
-            print_green "---- tmux configuration installed ----"
+            print_info "---- tmux configuration installed ----"
         fi
     else
         install_package tmux
         ln -s $REPO_PWD/tmux/.tmux.conf   $HOME/.tmux.conf
-        print_green "---- tmux configuration installed ----"
+        print_info "---- tmux configuration installed ----"
     fi
 }
 
@@ -163,22 +163,22 @@ function install_zsh()
     # ====================================================
     if [ ! -z $wzsh ]; then
         echo ""
-        print_yellow "Checking ZSH configuration..."
+        print_warning "Checking ZSH configuration..."
         if [ -e $HOME/.zshrc ]; then
-            print_yellow "  There is a current ZSH configuration: "
+            print_warning "  There is a current ZSH configuration: "
             check_diff $HOME/.zshrc $REPO_PWD/zsh/.zshrc
             if [ $? -eq "2" ]; then
                 save_prev_conf zsh
                 ln -s $REPO_PWD/zsh/.zshrc    $HOME/.zshrc
                 source $HOME/.zshrc
-                print_green "---- ZSH configuration installed ----"
+                print_info "---- ZSH configuration installed ----"
             elif [ $? -eq "3" ]; then
-                print_red "---- ZSH configuration not installed ----"
+                print_error "---- ZSH configuration not installed ----"
             fi
 
         else
             ln -s $REPO_PWD/zsh/.zshrc    $HOME/.zshrc
-            print_green "---- ZSH configuration installed ----"
+            print_info "---- ZSH configuration installed ----"
         fi
     else
         install_package zsh
@@ -186,7 +186,7 @@ function install_zsh()
         rm $HOME/.zshrc
         ln -s $REPO_PWD/zsh/.zshrc     $HOME/.zshrc
         source $HOME/.zshrc
-        print_green "---- ZSH configuration installed ----"
+        print_info "---- ZSH configuration installed ----"
     fi
 }
 
@@ -204,20 +204,20 @@ function install_git()
             if [ $? -eq "2" ]; then
                 save_prev_conf git
                 ln -s $REPO_PWD/.gitconfig    $HOME/.gitconfig
-                print_green "---- GIT configuration installed ----"
+                print_info "---- GIT configuration installed ----"
             elif [ $? -eq "3" ]; then
-                print_red "---- GIT configuration not installed ----"
+                print_error "---- GIT configuration not installed ----"
             fi
 
         else
             ln -s $REPO_PWD/.gitconfig    $HOME/.gitconfig
-            print_green "---- GIT configuration installed ---"
+            print_info "---- GIT configuration installed ---"
         fi
     else
         install_package git
         rm $HOME/.gitconfig
         ln -s $REPO_PWD/.gitconfig     $HOME/.gitconfig
-        print_green "---- GIT configuration installed ----"
+        print_info "---- GIT configuration installed ----"
     fi
 }
 
@@ -228,8 +228,8 @@ if [ "$GLOBALMODE" == "standard" ];then
     install_tmux
     install_zsh
     install_git
-elif [ "$GLOBALMODE" == "vim" ];then
-    install_vim
+elif [ "$GLOBALMODE" == "vim" ] || [ "$GLOBALMODE" == "tmux" ];then
+    install_$GLOBALMODE
 fi
 
 echo ""
