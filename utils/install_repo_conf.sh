@@ -44,6 +44,7 @@ function save_prev_conf()
 
 function install_package()
 {
+    clear
     print_warning "Want to install $1, yes or no?"
     read user_ask
 
@@ -73,6 +74,7 @@ function install_package()
         print_error "$1 not installed"
     fi
 }
+
 
 function check_diff()
 {
@@ -223,7 +225,7 @@ function install_git()
 
 GLOBALMODE=$1
 
-if [ "$GLOBALMODE" == "standard" ];then
+if [ "$GLOBALMODE" == "" ] || [ "$GLOBALMODE" == "standard" ];then
     install_vim
     install_tmux
     install_zsh

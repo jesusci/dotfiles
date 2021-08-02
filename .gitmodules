@@ -7,3 +7,6 @@
 [submodule "vim/pack/fugitive/start/fugitive"]
 	path = vim/pack/fugitive/start/fugitive
 	url = https://github.com/tpope/vim-fugitive.git
+[submodule "vim/pack/fzf/start/fzf"]
+	path = vim/pack/fzf/start/fzf
+	url = https://github.com/junegunn/fzf.git

@@ -12,11 +12,15 @@ set mouse=v
 set laststatus=2
 set cursorline
 
-" Searching configure
+" Search configure
 set incsearch
 set hlsearch
 set showmatch
 set ignorecase
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap * *zz
+set scrolloff=3
 
 " Enable vim syntax colors option
 syntax on
