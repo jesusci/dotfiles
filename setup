@@ -31,9 +31,7 @@ fi
 if [ "$OP" == "install" ]; then
     INSTALLMODE=$2
     if [ "$INSTALLMODE" != "" ]; then
-        if [ "$INSTALLMODE" == "standard" ]; then
-            $REPO_UTILS/install_repo_conf.sh standard
-        elif [ "$INSTALLMODE" == "vim" ] || [ "$INSTALLMODE" == "tmux" ];then
+        if [ "$INSTALLMODE" == "standard" ] || [ "$INSTALLMODE" == "vim" ] || [ "$INSTALLMODE" == "tmux" ]; then
             $REPO_UTILS/install_repo_conf.sh $INSTALLMODE
         elif [ "$INSTALLMODE" == "submodules" ];then
             $REPO_UTILS/install_vim_submodules.sh
@@ -45,8 +43,20 @@ elif [ "$OP" == "save" ]; then
     #TODO: logic to save
     print_usage
 elif [ "$OP" == "recover" ]; then
-    echo "Recovering configuration"
-    $REPO_UTILS/fix_conf.sh
+    print_warning "Recovering configuration:"
+    SUBOPTION=$2
+    if [ "$SUBOPTION" != "" ]; then
+        if [ "$SUBOPTION" == "submodules" ]; then
+            print_warning "Recovering only submodules..."
+            rm -rf $REPO_PWD/vim/pack
+            $REPO_UTILS/install_vim_submodules.sh
+        else
+            print_warning "Suboptions valid for update: submodules"
+            exit 1
+        fi
+    else
+        $REPO_UTILS/fix_conf.sh
+    fi
 elif [ "$OP" == "update" ]; then
     UPDATEMODE=$2
     if [ "$UPDATEMODE" != "" ]; then
