@@ -56,13 +56,18 @@ set autoindent
 "       Key-mapping
 " =============================
 
+" Set space as Leader
+map <Space> <Leader>
+
 """ Move between tabs
 "" Move to right tab
 map <A-Right> gt
 "" Move to left tab
 map <A-Left> gT
 
-map <Space> <Leader>
+"" Creating a new tab after the last one
+map <Leader>tn :tablast<bar> tabnew<CR>
+
 nnoremap <Leader>j <C-w><left>
 nnoremap <Leader>ñ <C-w><right>
 nnoremap <Leader>k <C-w><down>
