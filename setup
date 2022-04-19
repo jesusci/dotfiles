@@ -62,7 +62,8 @@ elif [ "$OP" == "update" ]; then
     if [ "$UPDATEMODE" != "" ]; then
         if [ "$UPDATEMODE" == "submodules" ]; then
             git submodule update --remote --merge
-            git commit
+            git add vim/pack
+            git commit -am "Update submodules"
         else
             print_warning "Suboptions valid for update: submodules"
         fi
@@ -71,4 +72,4 @@ elif [ "$OP" == "update" ]; then
     fi
 fi
 
-exit 1
+exit 0

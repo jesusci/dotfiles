@@ -61,6 +61,8 @@ set autoindent
 map <A-Right> gt
 "" Move to left tab
 map <A-Left> gT
+"" Creating a new tab after the last one
+map <Leader>tn :tablast<bar> tabnew<CR>
 
 map <Space> <Leader>
 nnoremap <Leader>j <C-w><left>

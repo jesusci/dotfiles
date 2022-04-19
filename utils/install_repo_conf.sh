@@ -8,6 +8,7 @@ source $REPO_PWD/utils/print_options.sh
 ARCH=$(uname)
 
 wvim=$(which vim)
+wnvim=$(which nvim)
 wtmux=$(which tmux)
 wzsh=$(which zsh)
 wgit=$(which git)
@@ -27,6 +28,10 @@ function save_prev_conf()
         rm $HOME/.vimrc
         cp -r $HOME/.vim $PRECONF/vim/.vim
         rm -rf $HOME/.vim
+
+    elif [ $1 == "nvim" ]; then
+        cp $HOME/.tmux.conf $PRECONF/tmux/.tmux.conf
+        rm $HOME/.tmux.conf
 
     elif [ $1 == "tmux" ]; then
         cp $HOME/.tmux.conf $PRECONF/tmux/.tmux.conf
@@ -103,6 +108,43 @@ function install_vim()
     if [ ! -z $wvim ]; then
         echo ""
         print_warning "Checking vim configuration..."
+        if [ -e $HOME/.vimrc ]; then
+            print_warning "  There is a current vim configuration: "
+            check_diff $HOME/.vimrc $REPO_PWD/vim/.vimrc
+            if [ $? -eq "2" ]; then
+                save_prev_conf vim
+                ln -s $REPO_PWD/vim/.vimrc    $HOME/.vimrc
+                ln -s $REPO_PWD/vim/   $HOME/.vim
+                print_info "---- Vim configuration installed ----"
+            elif [ $? -eq "3" ]; then
+                print_error "---- Vim configuration not installed ----"
+            fi
+        else
+            ln -s $REPO_PWD/vim/.vimrc     $HOME/.vimrc
+            ln -s $REPO_PWD/vim/ $HOME/.vim
+            print_info "---- Vim configuration installed ----"
+        fi
+
+    else
+        print_warning "Vim not installed"
+        install_package vim
+        ln -s $REPO_PWD/vim/.vimrc   $HOME/.vimrc
+        ln -s $REPO_PWD/vim/   $HOME/.vim
+        print_info "---- Vim configuration installed ----"
+    fi
+}
+
+
+function install_nvim()
+{
+
+    # ====================================================
+    #               NeoVim configuration
+    # ====================================================
+    if [ ! -z $wnvim ]; then
+        echo ""
+        print_warning "Checking neovim configuration..."
+        ##### Aqui hay que comprobar la configuración de neovim
         if [ -e $HOME/.vimrc ]; then
             print_warning "  There is a current vim configuration: "
             check_diff $HOME/.vimrc $REPO_PWD/vim/.vimrc
@@ -226,7 +268,15 @@ function install_git()
 GLOBALMODE=$1
 
 if [ "$GLOBALMODE" == "" ] || [ "$GLOBALMODE" == "standard" ];then
-    install_vim
+    clear
+    print_warning "Want to install vim or nvim? [Vim/nvim]"
+    read user_ask
+
+    if [ $user_ask == "nvim" ]; then
+        install_nvim
+    else
+        install_vim
+    fi
     install_tmux
     install_zsh
     install_git
