@@ -5,33 +5,28 @@ OP=$1
 REPO_PWD=$(pwd)
 REPO_UTILS=$REPO_PWD/utils
 
+INSTALL_MODE=("standard" "vim" "nvim" "tmux")
+
 source $REPO_PWD/utils/print_options.sh
 
 function print_usage(){
-    print_warning "Usage: \"$0 install standard\" to install repo configuration standard"
-    print_warning "Usage: \"$0 install [vim|tmux]\" to install only [vim|tmux] configuration"
-    print_warning "Usage: \"$0 install submodules\" to install submodules"
-    print_warning "Usage: \"$0 update submodules\" to update vim submodules"
-    print_warning "Usage: \"$0 recover\" to set the last stable configuration"
-#    echo "Usage 2: \"$0 recover\" to recover previous configuration"
-#    echo "Usage 3: \"$0 save\" to save actual configuration"
+    print_warning "Usage:\n\t\"$0 install standard\" to install repo configuration standard"
+    print_warning "\t\"$0 install [vim|nvim|tmux]\" to install only [vim|nvim|tmux] configuration"
+    print_warning "\t\"$0 install submodules\" to install submodules"
+    print_warning "\t\"$0 update submodules\" to update vim submodules"
+    print_warning "\t\"$0 recover\" to set the last stable configuration"
 #    echo "Usage 3: \"$0 uninstall\" to delete all configuration from this repo and restore the original"
-    exit 1
+    exit 0
 }
 
 if [ "$NARGS" -eq 0 ]; then
     print_usage
-else
-    if [ "$OP" != "install" ] && [ "$OP" != "recover" ] && [ "$OP" != "save" ] && [ "$OP" != "update" ]; then
-        print_error "Invalid option $OP"
-        print_usage
-    fi
 fi
 
 if [ "$OP" == "install" ]; then
     INSTALLMODE=$2
     if [ "$INSTALLMODE" != "" ]; then
-        if [ "$INSTALLMODE" == "standard" ] || [ "$INSTALLMODE" == "vim" ] || [ "$INSTALLMODE" == "tmux" ]; then
+        if [[ "${INSTALL_MODE[@]}" =~ "$INSTALLMODE" ]]; then
             $REPO_UTILS/install_repo_conf.sh $INSTALLMODE
         elif [ "$INSTALLMODE" == "submodules" ];then
             $REPO_UTILS/install_vim_submodules.sh
@@ -51,7 +46,7 @@ elif [ "$OP" == "recover" ]; then
             rm -rf $REPO_PWD/vim/pack
             $REPO_UTILS/install_vim_submodules.sh
         else
-            print_warning "Suboptions valid for update: submodules"
+            print_warning "Suboptions valid for recover: submodules"
             exit 1
         fi
     else
@@ -69,6 +64,9 @@ elif [ "$OP" == "update" ]; then
     else
         print_warning "Suboptions valid for update: submodules"
     fi
+else
+    print_error "Invalid option: $OP"
+    print_usage
 fi
 
-exit 1
+exit 0
