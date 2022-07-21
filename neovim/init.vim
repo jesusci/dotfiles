@@ -12,14 +12,17 @@ set mouse=v
 set laststatus=2
 set cursorline
 
-" Search configure
+"" Search configure
 set incsearch
 set hlsearch
 set showmatch
 set ignorecase
+set smartcase
+" Center seacrh on the center of the screen
 nnoremap n nzz
 nnoremap N Nzz
 nnoremap * *zz
+" Padding of 3 lines
 set scrolloff=3
 
 " Enable vim syntax colors option
@@ -50,6 +53,9 @@ set autoindent
 :set shiftwidth=4
 :set softtabstop=4
 :set expandtab
+
+" When a tab is closed, remove the buffer
+set nohidden
 
 
 " ==============================
@@ -175,6 +181,17 @@ function ReplaceIn(ms,me,mfw,mtw)
     let mycommand = ":ms,mes/mfw/mtw/g"
     let mycommand = substitute(mycommand, "ms", mystart, "")
     let mycommand = substitute(mycommand, "me", myend, "")
+    let mycommand = substitute(mycommand, "mfw", myfromword, "")
+    let mycommand = substitute(mycommand, "mtw", mytoword, "")
+    echo mycommand
+    execute mycommand
+endfunction
+
+"""" Search and replace a word in a file
+function ReplaceAll(mfw,mtw)
+    let myfromword = a:mfw
+    let mytoword = a:mtw
+    let mycommand = ":%s/mfw/mtw/gc"
     let mycommand = substitute(mycommand, "mfw", myfromword, "")
     let mycommand = substitute(mycommand, "mtw", mytoword, "")
     echo mycommand

@@ -7,6 +7,7 @@ source $REPO_PWD/utils/print_options.sh
 
 ARCH=$(uname)
 
+wnvim=$(which nvim)
 wvim=$(which vim)
 wtmux=$(which tmux)
 wzsh=$(which zsh)
@@ -27,6 +28,10 @@ function save_prev_conf()
         rm $HOME/.vimrc
         cp -r $HOME/.vim $PRECONF/vim/.vim
         rm -rf $HOME/.vim
+
+    elif [ $1 == "nvim" ]; then
+        cp $HOME/.config/nvim/init.vim $PRECONF/.config/nvim/init.vim
+        rm $HOME/.config/nvim/init.vim
 
     elif [ $1 == "tmux" ]; then
         cp $HOME/.tmux.conf $PRECONF/tmux/.tmux.conf
@@ -61,7 +66,6 @@ function install_package()
             brew install $1
         fi
 
-
         if [ $1 == "zsh" ]; then
             chsh -s /usr/bin/zsh
             wget https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | zsh
@@ -74,7 +78,6 @@ function install_package()
         print_error "$1 not installed"
     fi
 }
-
 
 function check_diff()
 {
@@ -94,37 +97,68 @@ function check_diff()
     fi
 }
 
+function install_nvim()
+{
+    # ====================================================
+    #               NeoVim configuration
+    # ====================================================
+    if [ ! -z $wnvim ]; then
+        echo ""
+        print_warning "Checking NeoVim configuration..."
+        if [ -e $HOME/.config/nvim/init.vim ]; then
+            print_warning "  There is a current NeoVim configuration: "
+            check_diff $HOME/.config/nvim/init.vim $REPO_PWD/neovim/init.vim
+            if [ $? -eq "2" ]; then
+                save_prev_conf neovim
+                ln -s $REPO_PWD/neovim/init.vim   $HOME/.config/nvim/init.vim
+                print_info "---- NeoVim configuration installed ----"
+            elif [ $? -eq "3" ]; then
+                print_error "---- NeoVim configuration not installed ----"
+            fi
+        else
+            ln -s $REPO_PWD/neovim/init.vim   $HOME/.config/nvim/init.vim
+            print_info "---- NeoVim configuration installed ----"
+        fi
+
+    else
+        print_warning "NeoVim not installed"
+        install_package neovim
+        ln -s $REPO_PWD/neovim/init.vim   $HOME/.config/nvim/init.vim
+        print_info "---- NeoVim configuration installed ----"
+    fi
+}
+
 function install_vim()
 {
-
     # ====================================================
     #               Vim configuration
     # ====================================================
+
+    REPO_PATH=$REPO_PWD/vim
+    HOME_PATH=$HOME/.vim
+
     if [ ! -z $wvim ]; then
         echo ""
         print_warning "Checking vim configuration..."
-        if [ -e $HOME/.vimrc ]; then
+        if [ -e $HOME_PATH/vimrc ]; then
             print_warning "  There is a current vim configuration: "
-            check_diff $HOME/.vimrc $REPO_PWD/vim/.vimrc
+            check_diff $HOME_PATH/vimrc $REPO_PATH/vimrc
             if [ $? -eq "2" ]; then
                 save_prev_conf vim
-                ln -s $REPO_PWD/vim/.vimrc    $HOME/.vimrc
-                ln -s $REPO_PWD/vim/   $HOME/.vim
+                ln -s $REPO_PATH $HOME_PATH
                 print_info "---- Vim configuration installed ----"
             elif [ $? -eq "3" ]; then
                 print_error "---- Vim configuration not installed ----"
             fi
         else
-            ln -s $REPO_PWD/vim/.vimrc     $HOME/.vimrc
-            ln -s $REPO_PWD/vim/ $HOME/.vim
+            ln -s $REPO_PATH $HOME_PATH
             print_info "---- Vim configuration installed ----"
         fi
 
     else
         print_warning "Vim not installed"
         install_package vim
-        ln -s $REPO_PWD/vim/.vimrc   $HOME/.vimrc
-        ln -s $REPO_PWD/vim/   $HOME/.vim
+        ln -s $REPO_PATH $HOME_PATH
         print_info "---- Vim configuration installed ----"
     fi
 }
@@ -226,11 +260,23 @@ function install_git()
 GLOBALMODE=$1
 
 if [ "$GLOBALMODE" == "" ] || [ "$GLOBALMODE" == "standard" ];then
-    install_vim
+
+    clear
+    print_warning "Want to install vim or neovim, vim|neovim?"
+    read user_ask
+
+    if [ "$user_ask" == "" ] || [ "$user_ask" == "vim" ] ; then
+        install_vim
+    elif [ "$user_ask" == "neovim" ] ; then
+        install_nvim
+    else
+        print_error "Option: $user_ask not recognized"
+        exit 1
+    fi
     install_tmux
     install_zsh
     install_git
-elif [ "$GLOBALMODE" == "vim" ] || [ "$GLOBALMODE" == "tmux" ];then
+elif [ "$GLOBALMODE" == "vim" ] || [ "$GLOBALMODE" == "tmux" ] || [ "$GLOBALMODE" == "nvim" ];then
     install_$GLOBALMODE
 fi
 
