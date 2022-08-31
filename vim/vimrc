@@ -78,6 +78,9 @@ map <A-Left> gT
 "" Creating a new tab after the last one
 map <Leader>tn :tablast<bar> tabnew<CR>
 
+"" Fuzzy Finder
+map <Leader>ff <Esc>:FZF<CR>
+
 nnoremap <Leader>j <C-w><left>
 nnoremap <Leader>ñ <C-w><right>
 nnoremap <Leader>k <C-w><down>
@@ -103,6 +106,7 @@ vnoremap ñ l
 map <Leader>q <Esc>:q<CR>
 map <Leader>w <Esc>:w<CR>
 map <Leader>wq <Esc>:wq<CR>
+map <Leader>wa <Esc>:wa<CR>
 map <Leader>wqa <Esc>:wqa<CR>
 
 " Unmark highlited items
