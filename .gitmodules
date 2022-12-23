@@ -1,12 +1,3 @@
-[submodule "vim/pack/nerdtree/start/nerdtree"]
-	path = vim/pack/nerdtree/start/nerdtree
-	url = https://github.com/scrooloose/nerdtree.git
-[submodule "vim/pack/fugitive/start/fugitive"]
-	path = vim/pack/fugitive/start/fugitive
-	url = https://github.com/tpope/vim-fugitive.git
-[submodule "vim/pack/fzf/start/fzf"]
-	path = vim/pack/fzf/start/fzf
-	url = https://github.com/junegunn/fzf.git
-[submodule "vim/pack/gitgutter/start/vim-gitgutter"]
-	path = vim/pack/gitgutter/start/vim-gitgutter
-	url = https://github.com/airblade/vim-gitgutter.git
+[submodule "vim"]
+	path = vim
+	url = https://github.com/jesusci/vimrc.git
