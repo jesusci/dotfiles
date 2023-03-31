@@ -13,15 +13,15 @@
 	remote = cyan
 
 [color "status"]
-    added = green
-    changed = yellow
-    untracked = cyan
+	added = green
+	changed = yellow
+	untracked = cyan
 
 [core]
 	editor = vim
 
 [merge]
-    tool = meld
+	tool = meld
 
 [color]
 	ui = auto
@@ -31,3 +31,6 @@
 	frag = magenta bold
 	old = red bold
 	new = green bold
+
+[include]
+	path = ~/.gitconfig_local
