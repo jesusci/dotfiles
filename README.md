@@ -4,8 +4,8 @@
 *  Shell: zsh (oh-my-zsh)
 *  Terminal: tmux
 *  Editor:
-        * vim: Configuration can be seen on: [vim configuration](https://github.com/jesusci/vimrc)
-        * neovim: Configuration can be seen on: [neovim configuration](https://github.com/jesusci/neovim-configuration)
+** vim: Configuration can be seen on: [vim configuration](https://github.com/jesusci/vimrc)
+** neovim: Configuration can be seen on: [neovim configuration](https://github.com/jesusci/neovim-configuration)
 
 ## How to install my configuration
 Execute the following command to install all my dotfiles configuration:
@@ -15,8 +15,8 @@ Execute the following command to install all my dotfiles configuration:
 ```
 
 ## Submodules in this repo
-[vimrc](https://github.com/jesusci/vimrc): vim configuration
-[neovim-configuration](https://github.com/jesusci/neovim-configuration): neovim configuration
+* [vimrc](https://github.com/jesusci/vimrc): vim configuration
+* [neovim-configuration](https://github.com/jesusci/neovim-configuration): neovim configuration
 
 ## Hotkeys
 ### Tmux
