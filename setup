@@ -8,6 +8,8 @@ REPO_UTILS=$REPO_PWD/utils
 INSTALL_MODE=("standard" "vim" "nvim" "tmux")
 
 source $REPO_PWD/utils/print_options.sh
+source $REPO_PWD/vim/setup
+source $REPO_PWD/neovim/setup
 
 function print_usage(){
     print_warning "Usage:\n\t\"$0 install standard\" to install repo configuration standard"
@@ -29,7 +31,7 @@ if [ "$OP" == "install" ]; then
         if [[ "${INSTALL_MODE[@]}" =~ "$INSTALLMODE" ]]; then
             $REPO_UTILS/install_repo_conf.sh $INSTALLMODE
         elif [ "$INSTALLMODE" == "submodules" ];then
-            $REPO_UTILS/install_vim_submodules.sh
+            install_vim_submodules
         fi
     else
         $REPO_UTILS/install_repo_conf.sh
@@ -44,7 +46,7 @@ elif [ "$OP" == "recover" ]; then
         if [ "$SUBOPTION" == "submodules" ]; then
             print_warning "Recovering only submodules..."
             rm -rf $REPO_PWD/vim/pack
-            $REPO_UTILS/install_vim_submodules.sh
+            install_vim_submodules
         else
             print_warning "Suboptions valid for recover: submodules"
             exit 1
