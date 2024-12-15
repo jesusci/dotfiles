@@ -26,7 +26,7 @@ Execute the following command to install all my dotfiles configuration:
 | \<prefix\> ,        | Change name to window |
 | \<prefix\> x        | Close pane |
 | \<prefix\> -        | Split pane horizontally |
-| \<prefix\> |        | Split pane vertically |
+| \<prefix\> \|        | Split pane vertically |
 | \<prefix\> z        | Zoom on actual pane |
 
 ### Vim

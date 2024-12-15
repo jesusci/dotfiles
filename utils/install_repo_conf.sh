@@ -4,6 +4,7 @@ REPO_PWD=$(pwd)
 PRECONF=$REPO_PWD/prev_conf
 
 source $REPO_PWD/utils/print_options.sh
+source $REPO_PWD/vim/setup
 
 ARCH=$(uname)
 
@@ -141,11 +142,11 @@ function install_vim()
         echo ""
         print_warning "Checking vim configuration..."
         if [ -e $HOME_PATH/vimrc ]; then
-            print_warning "  There is a current vim configuration: "
+            print_warning "\tThere is a current vim configuration:"
             check_diff $HOME_PATH/vimrc $REPO_PATH/vimrc
             if [ $? -eq "2" ]; then
                 save_prev_conf vim
-                ln -s $REPO_PATH $HOME_PATH
+                copy_vim_files
                 print_info "---- Vim configuration installed ----"
             elif [ $? -eq "3" ]; then
                 print_error "---- Vim configuration not installed ----"
@@ -158,7 +159,7 @@ function install_vim()
     else
         print_warning "Vim not installed"
         install_package vim
-        ln -s $REPO_PATH $HOME_PATH
+        copy_vim_files
         print_info "---- Vim configuration installed ----"
     fi
 }
