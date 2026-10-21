@@ -1,9 +1,13 @@
 [alias]
 	co = checkout
-	po = push origin
-	pom = push origin master
+	lg = log --oneline --graph --all --decorate
 	lo = pull origin
 	lom = pull origin
+	lr = pull --rebase
+	po = push origin
+	pom = push origin master
+	sm = submodule update --init --recursive
+	ss = status
 	st = stash
 	stp = stash pop
 
@@ -22,6 +26,7 @@
 
 [merge]
 	tool = meld
+	conflictstyle = diff3
 
 [color]
 	ui = auto
@@ -31,6 +36,11 @@
 	frag = magenta bold
 	old = red bold
 	new = green bold
+	whitespace = red reverse
+
+[diff]
+	algorithm = histogram
+	colorMoved = default
 
 [include]
 	path = ~/.gitconfig_local
